@@ -24,6 +24,13 @@ def get_binary(data):
 
     return binary
 
+def get_int_from_binary(data: str):
+    return int(data, 2)
+
+def get_ascii_from_int(data: int):
+    """ TODO: this would fail if int > 255 """
+    return chr(data)
+
 def get_inverse(data):
     '''data = binary input'''
     inverse = ''.join([str(int(not bool(int(i)))) for i in data])
@@ -56,17 +63,29 @@ def xor_operator(data1, data2):
 
     return data
 
+def get_int_from_binary_array(data: list):
+    # return ''.join([get_int_from_binary(b) for b in data])
+    return [get_int_from_binary(b) for b in data]
+
+def get_ascii_from_binary_array(data: list):
+    # return ''.join([get_int_from_binary(b) for b in data])
+    return [get_ascii_from_int(get_int_from_binary(b)) for b in data]
+
 data = "hello world"
 print("original: ", print_bytes(data))
 
 binary = get_binary(str.encode(data))
 print("original binary: ", binary, len(binary))
+print("original int: ", get_int_from_binary_array(binary), len(binary))
+print("original ascii: ", ''.join(get_ascii_from_binary_array(binary)), len(binary))
 
 key_binary = get_key(binary)
 print("key binary: ",  key_binary, len(key_binary))
 
 xor_binary = xor_operator(binary, key_binary)
 print("xor binary: ", xor_binary)
+print("xor int: ", get_int_from_binary_array(xor_binary), len(xor_binary))
+print("xor ascii: ", ''.join(get_ascii_from_binary_array(xor_binary)), len(xor_binary))
 
 original_binary = xor_operator(xor_binary, key_binary)
 print("original binary: ", original_binary)
